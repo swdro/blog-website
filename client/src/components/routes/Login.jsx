@@ -62,6 +62,9 @@ const Login = () => {
 
     return (
         <div>
+            <div className="w-1/12 h-screen bg-secondary absolute bg-gradient-to-r from-lightprimary via-white to-white -z-10"></div>
+            <div className="w-1/12 h-screen bg-secondary absolute right-0 bg-gradient-to-r from-white via-white to-lightprimary -z-10"></div>
+            
             <div className="w-2/5 h-fit m-auto fixed inset-0 p-12 shadow-lg rounded-lg border border-black/1 text-center flex flex-col">
                 <h1 className="text-center text-4xl mb-5">{isSignup ? "Sign Up" : "Login"}</h1>
                 {

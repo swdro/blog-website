@@ -37,36 +37,33 @@ const Navbar = () => {
     }, [location]);
 
     return (
-        <>
-            <div className="flex justify-around p-4">
-                <h1 className="font-medium text-6xl">
-                    <Link to="/">The Software Blog</Link>
-                </h1>
-                <ul className="flex justify-evenly items-end">
-                    <li className="mx-6">
-                        <Link to="/now">Now</Link>
-                    </li>
-                    <li className="mx-6">
-                        <Link to="/about">About</Link>
-                    </li>
-                    <li className="mx-6">
-                        <Link to="/">Blogs</Link>
-                    </li>
-                    <li className="mx-6">
-                        <Link to="/portfolio">Portfolio</Link>
-                    </li>
-                    <li className="mx-6">
-                        <Link to="/contact">Contact</Link>
-                    </li>
-                </ul>
-                <div className="flex items-end">
-                    <button className=" py-2 px-5 shadow-xl backdrop-blur-md rounded-lg" onClick={user && logoutUser}>
-                        <Link to="/login">{user ? "Logout" : "Login"}</Link>
-                    </button>
-                </div>
+        <div className="flex justify-around p-4 border-b-2 bg-gradient-to-b from-lightprimary via-white to-white">
+            <h1 className="font-medium text-6xl">
+                <Link to="/">The Software Blog</Link>
+            </h1>
+            <ul className="flex justify-evenly items-end">
+                <li className="mx-6">
+                    <Link to="/now">Now</Link>
+                </li>
+                <li className="mx-6">
+                    <Link to="/about">About</Link>
+                </li>
+                <li className="mx-6">
+                    <Link to="/">Blogs</Link>
+                </li>
+                <li className="mx-6">
+                    <Link to="/portfolio">Portfolio</Link>
+                </li>
+                <li className="mx-6">
+                    <Link to="/contact">Contact</Link>
+                </li>
+            </ul>
+            <div className="flex items-end">
+                <button className=" py-2 px-5 shadow-xl backdrop-blur-md rounded-lg" onClick={user && logoutUser}>
+                    <Link to="/login">{user ? "Logout" : "Login"}</Link>
+                </button>
             </div>
-            <hr></hr>
-        </>
+        </div>
     );
 };
 
