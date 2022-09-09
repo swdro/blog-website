@@ -1,0 +1,31 @@
+.post-body {
+    font-family: 'arial';
+    font-size: 1.3rem;
+}
+
+.post-body ul {
+    padding-left: 2.5rem;
+}
+
+.post-body li {
+    list-style-type: disc;
+}
+
+.ql-align-center {
+    text-align: center;
+}
+
+.ql-video.ql-align-center {
+    margin: auto;
+}
+
+.ql-align-right {
+    text-align: end;
+}
+
+.ql-syntax {
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 0.25rem;
+    border-radius: 10px;
+}

@@ -48,6 +48,9 @@ export const userSlice = createSlice({
         logout(state) {
             localStorage.clear();
             return { ...state, userData: null};
+        },
+        resetuser(state) {
+            return { ...state, userData: JSON.parse(localStorage.getItem("profile"))};
         }
     },
     extraReducers: (builder) => {
@@ -73,6 +76,6 @@ export const userSlice = createSlice({
     } 
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, resetuser } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -12,6 +12,8 @@ import Portfolio from './components/routes/Portfolio';
 import PageNotFound from './components/routes/PageNotFound';
 import Login from './components/routes/Login';
 import Home from './components/routes/Home';
+import CreatePost from './components/routes/CreatePost';
+import Post from './components/routes/Post';
 
 import './index.css';
 
@@ -27,6 +29,8 @@ root.render(
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="portfolio" element={<Portfolio />} />
+            <Route path="createpost" element={<CreatePost />} />
+            <Route path="post/:postId" element={<Post />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/login" element={<Login />} />

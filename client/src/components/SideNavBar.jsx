@@ -1,8 +1,6 @@
 import React from 'react';
 
 import { ReactComponent as Search } from '../assets/search.svg';
-import { ReactComponent as DownArrow } from '../assets/chevron-down.svg';
-import { ReactComponent as UpArrow } from '../assets/chevron-up.svg';
 import { ReactComponent as FilterLeft } from '../assets/filter-left.svg';
 import { ReactComponent as ArrowUpDown } from '../assets/arrow-down-up.svg';
 import Dropdown from './Dropdown';
@@ -36,7 +34,7 @@ const SideNavBar = () => {
                 </div>
                 <div className="pl-3">
                     {TAGS.map((tag) => 
-                        <div className="text-primary my-6 break-all"> 
+                        <div className="text-primary my-6 break-all" key={tag}> 
                             {tag}
                         </div>
                     )}

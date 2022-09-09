@@ -2,8 +2,13 @@ import axios from 'axios';
 
 const API = axios.create({ baseURL: 'http://localhost:5000' });
 
+// users
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
+
+// posts
+export const createPost = (formData) => API.post('/post/createpost', formData);
+export const getPosts = () => API.get('/post/getposts');
 
 /*
 import axios from 'axios';

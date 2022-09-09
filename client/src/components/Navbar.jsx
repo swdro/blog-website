@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/reducers/user';
+import { logout, resetuser } from '../redux/reducers/user';
 
 const Navbar = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
@@ -14,7 +14,7 @@ const Navbar = () => {
         dispatch(logout());
         setUser(null);
         navigate('/');
-    }
+    };
 
     useEffect(() => {
         const token = user?.token;
@@ -27,13 +27,14 @@ const Navbar = () => {
             console.log("seconds left", expiration - now);
 
             if (now > expiration) {
-                console.log("expired")
+                console.log("expired");
                 logoutUser();
             } else {
                 console.log("still valid");
             }
         }
         setUser(JSON.parse(localStorage.getItem("profile")));
+        console.log("navBar user: ", user);
     }, [location]);
 
     return (
@@ -52,16 +53,16 @@ const Navbar = () => {
                     <Link to="/">Blogs</Link>
                 </li>
                 <li className="mx-6">
-                    <Link to="/portfolio">Portfolio</Link>
+                    <a href="https://alexmanuel.dev/" target="_blank" rel="noreferrer">Portfolio</a>
                 </li>
                 <li className="mx-6">
                     <Link to="/contact">Contact</Link>
                 </li>
             </ul>
             <div className="flex items-end">
-                <button className=" py-2 px-5 shadow-xl backdrop-blur-md rounded-lg" onClick={user && logoutUser}>
-                    <Link to="/login">{user ? "Logout" : "Login"}</Link>
-                </button>
+                <Link to="/login" className=" py-2 px-5 shadow-xl backdrop-blur-md rounded-lg" onClick={user && logoutUser}>
+                    {user ? "Logout" : "Login"}
+                </Link>
             </div>
         </div>
     );

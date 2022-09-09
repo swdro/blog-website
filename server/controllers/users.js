@@ -36,7 +36,11 @@ export const signin = async (req, res) => {
             profilePicture: queryResult.rows[0].profilepicture,
             adminRole: queryResult.rows[0].adminrole
         }
-        const token = jwt.sign({ email: result.email, id: result.id }, process.env.JWTSECRET, { expiresIn: expiration });
+        const token = jwt.sign({ 
+            email: result.email, 
+            id: result.id }, 
+            process.env.JWTSECRET, 
+            { expiresIn: expiration });
 
         // send response
         res.status(200).json({ result, token });
