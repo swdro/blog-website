@@ -8,7 +8,7 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 
 // posts
 export const createPost = (formData) => API.post('/post/createpost', formData);
-export const getPosts = () => API.get('/post/getposts');
+export const getPosts = (page) => API.post('/post/getposts', page);
 
 /*
 import axios from 'axios';

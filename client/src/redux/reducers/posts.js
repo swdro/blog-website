@@ -3,13 +3,14 @@ import * as api from '../../api/index';
 
 const initialState = {
     posts: [],
+    totalPages: 0,
     status: 'idle'
 }
 
-export const getPostsThunk = createAsyncThunk('post/getposts', async () => {
+export const getPostsThunk = createAsyncThunk('post/getposts', async (page) => {
     try {
-        const { data } = await api.getPosts();
-        return data.posts;
+        const { data } = await api.getPosts(page);
+        return data;
     } catch (error) {
         console.log(error);
         return error.response.data;
@@ -28,7 +29,9 @@ export const postsSlice = createSlice({
                 return {...state, status: "loading"}
             })
             .addCase(getPostsThunk.fulfilled, (state, action) => {
-                return {...state, status: "succeeded", posts: action.payload};
+                const { posts, totalPages } = action.payload;
+                console.log("total pages: ", totalPages);
+                return {...state, status: "succeeded", posts, totalPages};
             })
             .addCase(getPostsThunk.rejected, (state, action) => {
                 return {...state, status: "failed"}

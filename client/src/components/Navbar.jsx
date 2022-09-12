@@ -37,11 +37,16 @@ const Navbar = () => {
         console.log("navBar user: ", user);
     }, [location]);
 
+    const refresh = () => {
+        navigate('/');
+        window.location.reload();
+    }
+
     return (
         <div className="flex justify-around p-4 border-b-2 bg-gradient-to-b from-lightprimary via-white to-white">
-            <h1 className="font-medium text-6xl">
-                <Link to="/">The Software Blog</Link>
-            </h1>
+            <button className="font-medium text-6xl" onClick={refresh}>
+                The Software Blog
+            </button>
             <ul className="flex justify-evenly items-end">
                 <li className="mx-6">
                     <Link to="/now">Now</Link>

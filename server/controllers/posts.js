@@ -43,17 +43,36 @@ export const createPost = async (req, res) => {
 }
 
 export const getPosts = async (req, res) => {
+    const POSTSPERPAGE = 8;
+    const { page } = req.body;
     console.log("get posts endpoint");
+    console.log(req.body);
     try {
-        // query posts
-        const queryPosts = await pool.query(
-            "SELECT * FROM posts"
+        // get total posts
+        const queryTotalPosts = await pool.query(
+            "SELECT COUNT(*) FROM posts"
         );
 
-        console.log(queryPosts)
+        const totalPosts = parseInt(queryTotalPosts.rows[0].count);
+        const totalPages = Math.ceil(totalPosts/POSTSPERPAGE);
+        let offset = POSTSPERPAGE * (page - 1);
+
+        // check page request is valid
+        if (page <= 0 || page > totalPages) {
+            //return res.status(404).json({ message: "Page does not exist" });
+            offset = 0;
+        }
+
+        // query posts
+        const queryPosts = await pool.query(
+            "SELECT * FROM posts LIMIT $1 OFFSET $2",
+            [POSTSPERPAGE, offset]
+        );
+
+        console.log(totalPages);
 
         // success
-        res.status(200).json({ posts: queryPosts.rows });
+        res.status(200).json({ posts: queryPosts.rows, totalPages });
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ message: "Something went wrong on our end... we were unable to retrieve the blog posts" });

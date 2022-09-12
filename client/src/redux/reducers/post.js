@@ -7,6 +7,24 @@ const initialState = {
 
 export const createpost = createAsyncThunk('post/createpost', async ({formData, navigate}) => {
     try {
+
+        // var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        // for (let j = 0; j < 500; j++ ) {
+        //     var length = Math.floor(Math.random() * (75 - 1 + 1) + 1);
+        //     var titleResult = '';
+        //     var textResult = '';
+        //     var charactersLength = characters.length;
+        //     for ( let i = 0; i < length; i++ ) {
+        //         titleResult += characters.charAt(Math.floor(Math.random() * charactersLength));
+        //     }
+        //     for ( let i = 0; i < 100000; i++ ) {
+        //         textResult += characters.charAt(Math.floor(Math.random() * charactersLength));
+        //     }
+        //     formData.title = titleResult;
+        //     formData.text = textResult;
+        //     const { data } = await api.createPost(formData);
+        // }
+
         const { data } = await api.createPost(formData);
         if (data?.result) {
             const { result } = data;

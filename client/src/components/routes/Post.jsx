@@ -8,8 +8,6 @@ import './Post.css';
 
 
 const Post = () => {
-
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
     const posts = useSelector((state) => state.posts.posts);
     const params = useParams();
     const { postId } = params;
@@ -22,10 +20,10 @@ const Post = () => {
 
     return (
         <div className="p-10">
-            <div className="text-6xl text-primary font-bold text-center">
+            <div className="text-6xl text-primary text-center break-words">
                 {post.title}
             </div>
-            <div className='mt-5 mb-5 text-center'>
+            <div className='mt-8 mb-6 text-center'>
                 <div className="text-secondary inline-block ml-1 mr-10">
                     {`by ${post.authorname}`}
                 </div>
@@ -36,28 +34,8 @@ const Post = () => {
                     {getDate(post.datecreated)}
                 </div>
             </div>
-            <div className='post-body break-words p-5 border-t-2 border-l-4 border-lightprimary rounded'>
-                { parse(post.body)
-                /* {parse(post.body, {
-                    replace: domNode => {
-                        // if (domNode.name === 'li') {
-                        //     //console.dir(domNode, { depth: null });
-                        //     const text = domNode.children[0].data;
-                        //     return <li className="list-disc">{text}</li>
-                        // }
-                        if (domNode.name === 'ul') {
-                            console.dir(domNode, { depth: null });
-                            return (
-                                <ul className="pl-2">
-                                    {domNode.children.forEach((child) => {
-                                        const text = child.children[0].data;
-                                        console.log(text);
-                                        return <li className="list-disc">{text}</li>})
-                                    }
-                                </ul>
-                            )
-                        }
-                }})} */}
+            <div className='post-body break-words p-5 border-t-2 rounded'>
+                { parse(post.body) }
             </div>
         </div>
     )
