@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import userRoutes from './routes/users.js';
 import postRoutes from './routes/posts.js';
+import tagRoutes from './routes/tags.js';
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 
 app.use('/user', userRoutes);
 app.use('/post', postRoutes);
+app.use('/tags', tagRoutes);
 
 app.listen(PORT, () => {
     console.log("server has started on port 5000");

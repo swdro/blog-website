@@ -1,46 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import SideNavBar from '../SideNavBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useOutletContext, useParams } from 'react-router-dom';
 
+import { ReactComponent as Slider } from '../../assets/slider.svg';
+import { ReactComponent as FilterCircle } from '../../assets/filter-circle.svg';
+import { ReactComponent as Exit } from '../../assets/x-lg.svg';
 import { getPostsThunk } from '../../redux/reducers/posts';
+import { getMostFrequentTagsThunk } from '../../redux/reducers/tags';
 import getDate from '../../helperFunctions/getDate';
 import Pagination from '../Pagination';
 
 const Home = () => {
     const dispatch = useDispatch();
-
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
     const posts = useSelector((state) => state.posts.posts);
     const postStatus = useSelector((state) => state.posts.status);
+    const totalPages = useSelector((store) => store.posts.totalPages);
+    const location = useLocation();
     const params = useParams();
-    const [page, setPage] = useState(params?.posts ? parseInt(params?.posts) : 1)
-
-    //console.log("posts", posts);
+    const { page, setPage, user, sortBy, order, sideBar, setSideBar, selectedTag, setSelectedTag } = useOutletContext();
 
     useEffect(() => {
-        console.log("you updated state");
-        console.log("useEffect page: ", page);
-        dispatch(getPostsThunk({ page }));
-    }, [page]);
+        // parse current page from address bar
+        let currentPage = parseInt(params.posts);
+        if (currentPage) {
+            currentPage = parseInt(currentPage);
+            setPage(currentPage);
+        } else {
+            currentPage = 1;
+        }
+        // fetch new posts and fetch frequent tags
+        dispatch(getPostsThunk({ page: currentPage, sortBy, order, selectedTag }));
+        dispatch(getMostFrequentTagsThunk());
+    }, [page, dispatch, sortBy, order, selectedTag, location]);
 
     return (
-        <div className="flex w-screen">
-            <div className="w-1/12 h-screen absolute bg-gradient-to-r from-lightprimary via-white to-white -z-10"></div>
-            <div className="w-1/12 h-screen absolute right-0 bg-gradient-to-r from-white via-white to-lightprimary -z-10"></div>
+        <div className={`flex flex-col sm:flex-row w-screen transition duration-500 ease-in-out`}>
+            {/* <div className="w-1/12 h-screen absolute bg-gradient-to-r from-lightprimary via-white to-white -z-10"></div>
+            <div className="w-1/12 h-screen absolute right-0 bg-gradient-to-r from-white via-white to-lightprimary -z-10"></div> */}
             <SideNavBar/>
-            <div className="w-[80%] bg-lightPrimary min-w-5/6 max-w-5/6 px-10 flex flex-col content-between">
+            <div className="overflow-auto w-full bg-lightPrimary flex flex-col content-between font-exo font-medium">
+                <div className='pl-2 pt-2 flex justify-between'>
+                    <button onClick={() => setSideBar(!sideBar)}>
+                        {
+                            sideBar ? <Exit/> : <Slider/>
+                        }
+                    </button>
+                    {
+                        user?.result?.adminRole && 
+                        <Link to="/createpost" className="mr-10 my-1 px-4 py-2 border rounded-full text-white bg-primary">Create Post</Link>
+                    }
+                </div>
                 {
-                    user?.result?.adminRole && 
-                    <Link to="/createpost" className="px-4 py-2 border rounded-full text-white bg-primary mt-5">Create Post</Link>
+                    selectedTag && 
+                    (<>
+                    <div className='flex pt-10 pl-16'>
+                        <div className='text-xl text-black/75 p-1'>Posts relating to:</div>
+                        <div className='text-xl text-primary p-1'>{selectedTag}</div>
+                    </div>
+                    </>)
                 }
-                <div className='flex flex-col mt-6'>
+                <div className='flex flex-col px-28 py-5'>
                     {
                         (postStatus === "idle" || postStatus === "loading") ? "loading..." : (
                             <>
                                 {posts.map((post) => (
-                                    <div className="w-full my-2 p-2 border-b-2 flex flex-col" key={post.id}>
-                                        <Link className="text-3xl text-primary break-words" to={`/post/${post.id}`}>
+                                    <div className="w-full my-2 p-3 shadow-md flex flex-col" key={post.id}>
+                                        <Link className="hover:text-black text-2xl text-primary break-words" to={`/post/${post.id}`}>
                                             {post.title}
                                         </Link>
                                         <div className="opacity-50 inline-block h-full mt-1">

@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo&family=Exo+2&family=Inconsolata&family=Oswald:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Oswald:wght@300&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

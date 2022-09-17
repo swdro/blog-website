@@ -31,3 +31,20 @@ CREATE TABLE likes (
     FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE tags (
+    PRIMARY KEY (tagName, postId),
+    tagName VARCHAR(75) NOT NULL,
+    postId uuid NOT NULL,
+    FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- query most common tags
+SELECT count(tagname), tagname FROM tags GROUP BY tagname ORDER BY count(tagname) DESC LIMIT 5;
+
+
+-- query posts with selected tag
+SELECT *
+FROM tags t
+INNER JOIN posts p on t.postId = p.id
+WHERE t.tagName = 'machine-learning' ORDER BY title ASC LIMIT 5 OFFSET 0;

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
-import { logout, resetuser } from '../redux/reducers/user';
+import { logout } from '../redux/reducers/user';
 
-const Navbar = () => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+const Navbar = ({ user, setUser, page, setPage, setSelectedTag }) => {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -34,20 +33,20 @@ const Navbar = () => {
             }
         }
         setUser(JSON.parse(localStorage.getItem("profile")));
-        console.log("navBar user: ", user);
     }, [location]);
 
     const refresh = () => {
-        navigate('/');
-        window.location.reload();
+        navigate('/posts/1');
+        setPage(1);
+        setSelectedTag('');
     }
 
     return (
-        <div className="flex justify-around p-4 border-b-2 bg-gradient-to-b from-lightprimary via-white to-white">
+        <div className="flex flex-row flex-wrap justify-around p-4 border-b-2 bg-gradient-to-b from-lightprimary via-white to-white">
             <button className="font-medium text-6xl" onClick={refresh}>
                 The Software Blog
             </button>
-            <ul className="flex justify-evenly items-end">
+            <ul className="flex flex-row flex-wrap justify-evenly items-end">
                 <li className="mx-6">
                     <Link to="/now">Now</Link>
                 </li>
@@ -55,7 +54,7 @@ const Navbar = () => {
                     <Link to="/about">About</Link>
                 </li>
                 <li className="mx-6">
-                    <Link to="/">Blogs</Link>
+                    <Link to={`/posts/${page}`}>Blogs</Link>
                 </li>
                 <li className="mx-6">
                     <a href="https://alexmanuel.dev/" target="_blank" rel="noreferrer">Portfolio</a>

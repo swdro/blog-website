@@ -10,6 +10,9 @@ export const signUp = (formData) => API.post('/user/signup', formData);
 export const createPost = (formData) => API.post('/post/createpost', formData);
 export const getPosts = (page) => API.post('/post/getposts', page);
 
+// tags
+export const getMostFrequentTags = () => API.get('/tags/getcommontags');
+
 /*
 import axios from 'axios';
 

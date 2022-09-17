@@ -7,13 +7,14 @@ const initialState = {
     status: 'idle'
 }
 
-export const getPostsThunk = createAsyncThunk('post/getposts', async (page) => {
+export const getPostsThunk = createAsyncThunk('post/getposts', async (data) => {
     try {
-        const { data } = await api.getPosts(page);
-        return data;
+        const result = await api.getPosts(data);
+        console.log(result.data);
+        return result.data;
     } catch (error) {
         console.log(error);
-        return error.response.data;
+        return error.response.result;
     }
 })
 
