@@ -36,7 +36,12 @@ const Navbar = ({ user, setUser, page, setPage, setSelectedTag }) => {
     }, [location]);
 
     const refresh = () => {
-        navigate('/posts/1');
+        navigate('/posts/1', {
+            state: {
+                page: 1,
+                selectedTag: ''
+            }
+        });
         setPage(1);
         setSelectedTag('');
     }

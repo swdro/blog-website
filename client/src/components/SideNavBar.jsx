@@ -14,11 +14,11 @@ const SideNavBar = () => {
     const { sortBy, order, changeSortBy, changeOrder, sideBar, setSelectedTag } = useOutletContext();
     const mostFrequentTags = useSelector((store) => store.tags.mostFrequentTags);
     const navigate = useNavigate();
-    console.log("side nav bar most frequent tags: ", mostFrequentTags);
+    //console.log("side nav bar most frequent tags: ", mostFrequentTags);
 
     useEffect(() => {
-        console.log("sortBy: ", sortBy);
-        console.log("order: ", order);
+        // console.log("sortBy: ", sortBy);
+        // console.log("order: ", order);
     }, [sortBy, order]);
 
     const handleSearch = () => {
@@ -27,7 +27,12 @@ const SideNavBar = () => {
 
     const handleTagClick = (tag) => {
         setSelectedTag(tag); 
-        navigate('/posts/1');
+        navigate('/posts/1', {
+            state: {
+                page: 1,
+                selectedTag: tag
+            }
+        });
     }
 
     return (

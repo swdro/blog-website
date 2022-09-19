@@ -30,10 +30,14 @@ export const createpost = createAsyncThunk('post/createpost', async ({formData, 
             //const { result } = data;
             navigate('/');
         }
-        console.log(data);
+        console.log("createpostthunk data: ", data);
         //return data;
     } catch (error) {
         console.log(error);
+        // if (error.response.status === 401) {
+        //     localStorage.removeItem('profile');
+        //     navigate('/');
+        // }
         return error.response.data;
     }
     return formData;

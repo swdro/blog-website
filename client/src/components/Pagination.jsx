@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as ArrowLeft } from '../assets/chevron-left.svg';
 import { ReactComponent as ArrowRight } from '../assets/chevron-right.svg';
 
-const Pagination = ({ page, setPage }) => {
+const Pagination = ({ page, setPage, selectedTag }) => {
     const navigate = useNavigate();
     let totalPages = useSelector((store) => store.posts.totalPages);
     const isFirstPage = (page === 1);
@@ -45,13 +45,25 @@ const Pagination = ({ page, setPage }) => {
     const changePage = (p) => {
         if (p < 1) {
             setPage(1);
-            navigate(`/posts/${1}`);
+            navigate(`/posts/1`, {
+                state: {
+                    page: 1,
+                    selectedTag
+            }});
         } else if (p > totalPages) {
             setPage(totalPages);
-            navigate(`/posts/${totalPages}`);
+            navigate(`/posts/${totalPages}`, {
+                state: {
+                    page: totalPages,
+                    selectedTag
+            }});
         } else {
             setPage(p);
-            navigate(`/posts/${p}`);
+            navigate(`/posts/${p}`, {
+                state: {
+                    page: p,
+                    selectedTag
+            }});
         }
     }
 

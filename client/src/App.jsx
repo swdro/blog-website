@@ -29,8 +29,10 @@ function App() {
         user={user} 
         setUser={setUser} 
         page={page} 
-        setPage={setPage} 
+        setPage={setPage}
         setSelectedTag={setSelectedTag}
+        order={order}
+        sortBy={sortBy}
       />
       <Outlet context={{ 
         user, setUser, 

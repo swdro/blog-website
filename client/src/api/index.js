@@ -1,14 +1,20 @@
 import axios from 'axios';
 
 const API = axios.create({ baseURL: 'http://localhost:5000' });
+const config = {
+    headers: {
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('profile'))?.token}`
+    }
+};
 
 // users
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
 
 // posts
-export const createPost = (formData) => API.post('/post/createpost', formData);
+export const createPost = (formData) => API.post('/post/createpost', formData, config);
 export const getPosts = (page) => API.post('/post/getposts', page);
+export const getPost = (post) => API.post('/post/getpost', post);
 
 // tags
 export const getMostFrequentTags = () => API.get('/tags/getcommontags');

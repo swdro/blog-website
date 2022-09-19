@@ -68,9 +68,6 @@ export const getPosts = async (req, res) => {
     const sortBy = sortByObj[req.body.sortBy];
     const order = orderObj[req.body.order];
     const selectedTag = req.body.selectedTag;
-    console.log("selected tag: ", selectedTag);
-    console.log("get posts endpoint");
-    console.log(page, sortBy, order);
     try {
         let queryTotalPosts;
         if (selectedTag) {  // check for selected tag in headers
@@ -138,9 +135,49 @@ export const getPosts = async (req, res) => {
             .catch(err => {
                 res.status(500).json({ message: "Something went wrong on our end... we were unable to retrieve the blog posts" });
             });
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ message: "Something went wrong on our end... we were unable to retrieve the blog posts" });
+    }
+}
 
-        // success
-        //res.status(200).json({ posts, totalPages });
+export const getPost = async (req, res) => {
+    //console.log("req.body: ", req.body);
+
+    const { postId } = req.body;
+    //console.log(postId);
+
+    try {
+        // query post
+        const queryPost = await pool.query(
+            "SELECT * FROM posts WHERE posts.id = $1",
+            [postId]
+        );
+        const post = queryPost.rows[0];
+        // check if a post was found
+        if (!post) {
+            return res.status(500).json({ message: "Invalid Post ID" });
+        }
+        // get tags for each post
+        let posts = queryPost.rows.map(async (post) => {
+            let { id } = post;
+            const queryTags = await pool.query(
+                "SELECT * FROM tags WHERE tags.postId = $1",
+                [id]
+            );
+            let tags = queryTags.rows.map((row) => row.tagname);
+            return { ...post, tags };
+        });
+        // wait for promise to be fulfilled since map function
+        // has no promise logic
+        Promise.all(posts)
+            .then(posts => {
+                //console.log("posts: ", posts);
+                res.status(200).json({ posts });
+            })
+            .catch(err => {
+                res.status(500).json({ message: "Something went wrong on our end... we were unable to retrieve the blog posts" });
+            });
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ message: "Something went wrong on our end... we were unable to retrieve the blog posts" });

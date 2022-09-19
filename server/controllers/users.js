@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import pool from '../db.js';
 
 dotenv.config({ path: '../.env' });
-const expiration = 60;
+const expiration = 604800;
 
 export const signin = async (req, res) => {
     const { email, password } = req.body;
@@ -58,6 +58,7 @@ export const signup = async (req, res) => {
     try {
         // check if passwords match then hashes it
         if (password !== confirmedPassword) return res.status(400).json({ message: "Passwords don't match." });
+        if (password.length < 8 || password.length > 15) return res.status(400).json({ message: "Password must be between 8 and 15 characters" });  
         const hashedPassword = await bcrypt.hash(password, 12);
 
         // query database

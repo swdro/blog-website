@@ -28,7 +28,6 @@ export const tagsSlice = createSlice({
                 return {...state, status: "loading"}
             })
             .addCase(getMostFrequentTagsThunk.fulfilled, (state, action) => {
-                console.log("most common tags: ", action.payload);
                 return {...state, status: "succeeded", mostFrequentTags: action.payload};
             })
             .addCase(getMostFrequentTagsThunk.rejected, (state, action) => {
