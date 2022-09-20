@@ -56,9 +56,6 @@ const Navbar = ({ user, setUser, page, setPage, setSelectedTag }) => {
                     <Link to="/now">Now</Link>
                 </li>
                 <li className="mx-6">
-                    <Link to="/about">About</Link>
-                </li>
-                <li className="mx-6">
                     <Link to={`/posts/${page}`}>Blogs</Link>
                 </li>
                 <li className="mx-6">

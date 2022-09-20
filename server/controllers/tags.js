@@ -5,9 +5,7 @@ export const getFrequentTags = async (req, res) => {
         const inputTagsQuery = await pool.query(
             "SELECT tagname FROM tags GROUP BY tagname ORDER BY count(tagname) DESC LIMIT 5", 
         );
-
         const mostFrequentTags = inputTagsQuery.rows.map((tagObj) => tagObj.tagname);
-
         res.status(200).json({ tags: mostFrequentTags });
     } catch (err) {
         console.log(err.message);

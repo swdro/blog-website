@@ -3,49 +3,40 @@ import pool from "../db.js";
 export const createPost = async (req, res) => {
     let { authorId, authorName, title, text, tags } = req.body;
     try {
-        console.log(tags);
         // check to see if all fields were filled out
         if (!authorId || !authorName) {
             return res.status(404).json({ message: "User must login again" });
         } else if (!title || !text || !tags) {
             return res.status(404).json({ message: "All fields are required" });
         }
-
         // get user info
         const queryUser = await pool.query(
             "SELECT * FROM accounts AS acc WHERE acc.id = $1",
             [authorId]
         );
-
         // check to make sure user exists and has admin rights
         if (!queryUser.rowCount) {
             return res.status(404).json({ message: "User does not exist" });
         } else if (!queryUser.rows[0].adminrole) {
             return res.status(404).json({ message: "User does not have posting privelege" });
         }
-
         // create post
         const createPostQuery = await pool.query(
             "INSERT INTO posts (authorId, authorName, title, body) VALUES ($1, $2, $3, $4) RETURNING * ", 
             [authorId, authorName, title, text]
         );
-
         // check if post was successfully created
         if (!createPostQuery.rowCount) {
             return res.status(404).json({ message: "Error occurred when creating post" });
         }
-
         const postId = createPostQuery.rows[0].id;
-
         // insert tags into db
         tags.forEach(async (tag) => {
             const inputTagsQuery = await pool.query(
                 "INSERT INTO tags (tagName, postId) VALUES ($1, $2) RETURNING * ", 
                 [tag, postId]
             );
-            console.log(inputTagsQuery.rows[0]);
         });
-
         // success
         res.status(200).json({message: "post successfully created"});
     } catch (err) {
@@ -85,17 +76,14 @@ export const getPosts = async (req, res) => {
                 "SELECT COUNT(*) FROM posts"
             );
         }
-
         const totalPosts = parseInt(queryTotalPosts.rows[0].count);
         const totalPages = Math.ceil(totalPosts/POSTSPERPAGE);
         let offset = POSTSPERPAGE * (page - 1);
-
         // check page request is valid
         if (page <= 0 || page > totalPages) {
             //return res.status(404).json({ message: "Page does not exist" });
             offset = 0;
         }
-
         let queryPosts;
         if (selectedTag) {
             // query posts with selected tag
@@ -114,7 +102,6 @@ export const getPosts = async (req, res) => {
                 [POSTSPERPAGE, offset]
             );
         }
-        
         // get tags for each post
         let posts = queryPosts.rows.map(async (post) => {
             let { id } = post;
@@ -142,11 +129,7 @@ export const getPosts = async (req, res) => {
 }
 
 export const getPost = async (req, res) => {
-    //console.log("req.body: ", req.body);
-
     const { postId } = req.body;
-    //console.log(postId);
-
     try {
         // query post
         const queryPost = await pool.query(

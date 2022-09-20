@@ -5,6 +5,7 @@ import { Link, useNavigate, useLocation, useOutletContext, useParams } from 'rea
 
 import { ReactComponent as Slider } from '../../assets/slider.svg';
 import { ReactComponent as FilterCircle } from '../../assets/filter-circle.svg';
+import { ReactComponent as ArrowBarLeft } from '../../assets/arrow-bar-left.svg';
 import { ReactComponent as Exit } from '../../assets/x-lg.svg';
 import { getPostsThunk } from '../../redux/reducers/posts';
 import { getMostFrequentTagsThunk } from '../../redux/reducers/tags';
@@ -23,7 +24,6 @@ const Home = () => {
 
     useEffect(() => {
         const { state } = location;
-        console.log("location.state: ", state);
         // parse current page from address bar
         let currentPage = parseInt(params.posts);
         if (currentPage) {
@@ -33,7 +33,6 @@ const Home = () => {
             currentPage = 1;
         }
         setSelectedTag(state?.selectedTag ?? selectedTag);
-        console.log("selected Tag Use Effect: ", selectedTag);
         // fetch new posts and fetch frequent tags
         dispatch(getPostsThunk({ 
             page: state?.page ?? page, 
@@ -51,14 +50,14 @@ const Home = () => {
             <SideNavBar/>
             <div className="overflow-auto w-full bg-lightPrimary flex flex-col content-between font-exo font-medium">
                 <div className='pl-2 pt-2 flex justify-between'>
-                    <button onClick={() => setSideBar(!sideBar)}>
+                    <button onClick={() => setSideBar(!sideBar)} className="p-1 border-solid border-2 rounded-full shadow-md">
                         {
-                            sideBar ? <Exit/> : <Slider/>
+                            sideBar ? <ArrowBarLeft/> : <Slider/>
                         }
                     </button>
                     {
                         user?.result?.adminRole && 
-                        <Link to="/createpost" className="mr-10 my-1 px-4 py-2 border rounded-full text-white bg-primary">Create Post</Link>
+                        <Link to="/createpost" className="mr-10 px-4 py-1 border rounded-full text-white bg-primary">Create Post</Link>
                     }
                 </div>
                 {

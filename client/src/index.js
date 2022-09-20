@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 
 import App from './App';
 import Now from './components/routes/Now';
-import About from './components/routes/About';
 import Contact from './components/routes/Contact';
 import Portfolio from './components/routes/Portfolio';
 import PageNotFound from './components/routes/PageNotFound';
@@ -27,7 +26,6 @@ root.render(
             <Route index element={<Home />} />
             <Route path="posts/:posts" element={<Home />} />
             <Route path="now" element={<Now />} />
-            <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="portfolio" element={<Portfolio />} />
             <Route path="createpost" element={<CreatePost />} />
