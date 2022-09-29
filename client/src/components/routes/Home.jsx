@@ -44,7 +44,7 @@ const Home = () => {
     }, [page, dispatch, sortBy, order, selectedTag, location]);
 
     return (
-        <div className={`flex flex-col sm:flex-row w-screen transition duration-500 ease-in-out`}>
+        <div className="flex flex-col flex-1 sm:flex-row w-screen transition duration-500 ease-in-out">
             {/* <div className="w-1/12 h-screen absolute bg-gradient-to-r from-lightprimary via-white to-white -z-10"></div>
             <div className="w-1/12 h-screen absolute right-0 bg-gradient-to-r from-white via-white to-lightprimary -z-10"></div> */}
             <SideNavBar/>
@@ -74,7 +74,7 @@ const Home = () => {
                         (postStatus === "idle" || postStatus === "loading") ? "loading..." : (
                             <>
                                 {posts.map((post) => (
-                                    <div className="w-full my-2 p-3 shadow-md flex flex-col" key={post.id}>
+                                    <div className="w-full my-2 p-3 border-b-2 border-secondary/20 flex flex-col" key={post.id}>
                                         <button 
                                             className="hover:text-black text-2xl text-primary break-words text-left" 
                                             onClick={() => navigate(`/post/${post.id}`, {

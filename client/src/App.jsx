@@ -24,7 +24,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='h-screen flex flex-col'>
       <Navbar 
         user={user} 
         setUser={setUser} 

@@ -14,10 +14,11 @@ export const signin = async (req, res) => {
             "SELECT * FROM accounts AS acc WHERE acc.email = $1",
             [email]
         );
-        const isPasswordCorrect = await bcrypt.compare(password, queryResult.rows[0].password);
         if (!queryResult.rowCount) {
-            return res.status(404).json({ message: "User does not exist" });
-        } else if (!isPasswordCorrect) {
+            return res.status(404).json({ message: "Email does not exist" });
+        }
+        const isPasswordCorrect = await bcrypt.compare(password, queryResult.rows[0].password);
+        if (!isPasswordCorrect) {
             return res.status(404).json({ message: "Invalid Email/Password" });
         }
         // gather data from query
@@ -48,7 +49,7 @@ export const signup = async (req, res) => {
     const { firstName, lastName, email, password, confirmedPassword } = req.body;
     try {
         // check if passwords match then hashes it
-        if (password !== confirmedPassword) return res.status(400).json({ message: "Passwords don't match." });
+        if (password !== confirmedPassword) return res.status(400).json({ message: "Passwords do not match." });
         if (password.length < 8 || password.length > 15) return res.status(400).json({ message: "Password must be between 8 and 15 characters" });  
         const hashedPassword = await bcrypt.hash(password, 12);
         // query database

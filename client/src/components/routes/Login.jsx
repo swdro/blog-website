@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signin, signup } from '../../redux/reducers/user';
+import { ReactComponent as ArrowLeft } from '../../assets/arrow-left.svg';
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmedPassword: '' };
 
@@ -30,12 +31,17 @@ const Login = () => {
         const isLoginEmptyField = !formData.email.length || !formData.password.length;
         const isPasswordsEqual = formData.password === formData.confirmedPassword;
 
+        if (!formData.email.includes('@')) {
+            setErrorMessage("Invalid Email Address");
+            return
+        }
+
         if (isSignup && isSignUpEmptyField) {
             setErrorMessage("Please Fill Out All Required Fields");
             return;
         }
         if (isSignup && !isPasswordsEqual) {
-            setErrorMessage("Passwords don't match");
+            setErrorMessage("Passwords do not match");
             return;
         }
         if (isLoginEmptyField) {
@@ -62,7 +68,9 @@ const Login = () => {
         <div>
             <div className="w-1/12 h-screen bg-secondary absolute bg-gradient-to-r from-lightprimary via-white to-white -z-10"></div>
             <div className="w-1/12 h-screen bg-secondary absolute right-0 bg-gradient-to-r from-white via-white to-lightprimary -z-10"></div>
-            
+            <button className='absolute left-16 top-5' onClick={() => navigate('/')}>
+                <ArrowLeft className="w-5 h-5" />
+            </button>
             <div className="inline-block md:w-2/5 h-fit m-auto fixed inset-0 p-12 shadow-lg rounded-lg border border-black/1 text-center flex flex-col">
                 <h1 className="text-center text-4xl mb-5">{isSignup ? "Sign Up" : "Login"}</h1>
                 {
@@ -82,7 +90,7 @@ const Login = () => {
                 }
                 { errorMessage && (
                     <div className="text-red-600 text-left italic">
-                            {"*" + errorMessage}
+                            {"* " + errorMessage}
                     </div>)
                 }
                 <button className="my-5 px-4 py-2 border rounded-full text-white bg-primary hover:bg-primary/90" onClick={submitFormData}>{isSignup ? "Sign Up" : "Login"}</button>

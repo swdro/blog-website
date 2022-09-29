@@ -1,4 +1,4 @@
-CREATE DATABASE perntodo;
+CREATE DATABASE blog;
 
 CREATE TABLE accounts (
     id uuid PRIMARY KEY NOT NULL DEFAULT uuid_generate_v4(),

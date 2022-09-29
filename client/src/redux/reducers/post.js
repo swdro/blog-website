@@ -26,8 +26,7 @@ export const createpost = createAsyncThunk('post/createpost', async ({formData, 
         // }
 
         const { data } = await api.createPost(formData);
-        if (data?.result) {
-            //const { result } = data;
+        if (data.message === "post successfully created") {
             navigate('/');
         }
         console.log("createpostthunk data: ", data);

@@ -21,6 +21,7 @@ const CreatePost = () => {
     const [tags, setTags] = useState([]);
     const [tagsText, setTagsText] = useState('');
     const [title, setTitle] = useState('');
+    const [error, setError] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -48,8 +49,20 @@ const CreatePost = () => {
             tags
         }
 
-        const res = await dispatch(createpost({ formData, navigate }));
-        console.log("res: ", res);
+        if (!title) {
+            setError('Please give your post a title');
+        }
+        else if (!value) {
+            console.log("value: ", value);
+            setError('Post body is empty');
+        }
+        else if (tags.length === 0) {
+            setError('Please give your post at least 1 tag');
+        } 
+        else {
+            const res = await dispatch(createpost({ formData, navigate }));
+            console.log("res: ", res);
+        }
     }
 
     useEffect(() => {
@@ -67,6 +80,7 @@ const CreatePost = () => {
             <input className="my-3 px-5 py-2 border border-black/10 w-full" value={title} onChange={(e) => setTitle(e.target.value)} name="title" placeholder="Title" required />
             <ReactQuill theme="snow" modules={modules} value={value} onChange={setValue} />
             <input className="my-3 px-5 py-2 border border-black/10 w-full" value={tagsText} onChange={handleTagsText} onKeyDown={handleKeyDown} name="tags" placeholder="Press Enter to Add Tag" required />
+            <div className='text-red-500'>{error}</div>
             {
                 tags.map((tag) => {
                     return (

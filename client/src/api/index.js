@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: `http://localhost:5000` });
+// const API = axios.create({ baseURL: `http://localhost:5000/api` });
+console.log("process.env.REACT_APP_API_BASE_URL: ", process.env.REACT_APP_API_BASE_URL)
+
+const API = axios.create({ baseURL: `${process.env.REACT_APP_API_PROTOCOL}://localhost:5000/api` });
 const config = {
     headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem('profile'))?.token}`
